@@ -7,29 +7,34 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerMovement : MonoBehaviour {
-
-    [SerializeField] float speed = 3f;
-
-    // Used so that Update can listen for input, and FixedUpdate can move the player 
-    float xMove; 
-    float yMove;
-
-    Rigidbody2D rb;
-
-    void Start()
+namespace RPG.Player
+{
+    public class PlayerMovement : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody2D>();
-    }
 
-    void Update()
-    {
-        xMove = Input.GetAxis("Horizontal") * speed;
-        yMove = Input.GetAxis("Vertical") * speed;
-    }
-    
-    void FixedUpdate()
-    {
-        rb.velocity = new Vector2(xMove, yMove);
+        [SerializeField]
+        float speed = 3f;
+
+        // Used so that Update can listen for input, and FixedUpdate can move the player 
+        float xMove;
+        float yMove;
+
+        Rigidbody2D rb;
+
+        void Start()
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
+
+        void Update()
+        {
+            xMove = Input.GetAxis("Horizontal") * speed;
+            yMove = Input.GetAxis("Vertical") * speed;
+        }
+
+        void FixedUpdate()
+        {
+            rb.velocity = new Vector2(xMove, yMove);
+        }
     }
 }
