@@ -14,7 +14,10 @@ namespace RPG
             var abilityComponent = GetComponent<AbilityHotbar>();
 
             // Add some dummy abilities to it. (They do nothing yet)
-            abilityComponent.SetAbility(0, new Slash());    
+            abilityComponent.SetAbility(0, new Slash());
+            abilityComponent.SetAbility(1, new Slash());
+            abilityComponent.SetAbility(2, new Slash());
+            abilityComponent.SetAbility(3, new Slash());
         }
 
         void Update()
@@ -25,6 +28,8 @@ namespace RPG
             } else {
                 GetComponent<Player>().Heal(0.2f);
             }
+
+            
         }
         
     }

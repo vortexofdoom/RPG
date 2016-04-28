@@ -58,9 +58,12 @@ namespace RPG
             }
 
             activeAbilities[index] = newAbility;
-
+            
             abilityButtons[index].GetComponent<Image>().sprite = newAbility.AbilityIcon;
             abilityButtons[index].GetComponent<Button>().interactable = true;
+
+            //Change the text of the button so we know what ability is bound to that button (No longer needed)
+            //abilityButtons[index].GetComponentInChildren<Text>().text = newAbility.AbilityName;
         }
         
     }

@@ -9,7 +9,10 @@ namespace RPG
     /// </summary>
     public abstract class Ability {
 
-        private Sprite abilityIcon;
+        public string AbilityName { get; protected set; }
+
+        // will probably change this to a 'sprite Repository/cache' later on. So all sprites are loaded from one place
+        protected static Sprite abilityIcon;
         public Sprite AbilityIcon { get { return abilityIcon; } }
         
         public abstract void UseAbility();

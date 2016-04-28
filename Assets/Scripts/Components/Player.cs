@@ -36,7 +36,7 @@ namespace RPG
         [SerializeField]
         private string playerName = "";
 
-        [SerializeField]
+        [SerializeField] [HideInInspector]
         private float currentHealth;
 
         [SerializeField]
