@@ -1,8 +1,9 @@
-﻿/*
+/*
     A class for holding player's variables, and doing player related functions?
                                 Nostro Vostro(Trevor)
 */
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 namespace RPG
@@ -43,7 +44,7 @@ namespace RPG
         private float maxHealth;
 
         [SerializeField]
-        private GameObject healthBar; // Just used as a quick way to get this to work. May use a better way of updating the health bar later.
+        private Slider healthBar; // Healthbar slider
 
         /*******************  Unity Methods  *******************/
 
@@ -87,7 +88,11 @@ namespace RPG
         {
             // Changes the Health bars X value to be the same as the percentage health. 
             // E.g At 50% health it will be half as long. At 0% health it will not be visible.
-            healthBar.transform.localScale = new Vector3(HealthPercentage, 1);
+
+            //healthBar.transform.localScale = new Vector3(HealthPercentage, 1);
+
+            //Sets the healthbar slider value to be current health
+            healthBar.value = currentHealth;
         }
 
         /// <summary>
