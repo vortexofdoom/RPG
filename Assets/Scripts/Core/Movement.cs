@@ -5,12 +5,11 @@
         NostroVostro (Trevor LeCroy)
 */
 using UnityEngine;
-using System.Collections;
-using System;
+using System.Collections.Generic;
 
 namespace RPG
 {
-    public class PlayerMovement : MonoBehaviour
+    public class Movement : MonoBehaviour
     {
         [SerializeField]
         private float speed = 3f;
@@ -25,13 +24,9 @@ namespace RPG
             rb = GetComponent<Rigidbody2D>();
         }
 
-        void Update()
+        public void AddVelocity(Vector2 newVelocity)
         {
-            velocity.x += Input.GetAxis("Horizontal");
-            velocity.y += Input.GetAxis("Vertical");
-            
-            // Stops the velocity being dependent on framerate
-            velocity *= Time.deltaTime;
+            velocity += newVelocity;
         }
 
         void FixedUpdate()

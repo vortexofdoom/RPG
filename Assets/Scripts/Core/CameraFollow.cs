@@ -6,7 +6,7 @@
                                                     Nostro Vostro(Trevor)
 */
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace RPG
 {
