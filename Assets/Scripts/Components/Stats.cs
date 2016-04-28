@@ -1,8 +1,9 @@
-﻿/*
+/*
     A class for holding player's variables, and doing player related functions?
                                 Nostro Vostro(Trevor)
 */
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
@@ -44,6 +45,7 @@ namespace RPG
         [SerializeField]
         private float maxHealth;
 
+<<<<<<< HEAD:Assets/Scripts/Components/Stats.cs
         /*******************  Callbacks *******************/
 
         /// <summary>
@@ -64,6 +66,10 @@ namespace RPG
         /// the value being set. The float parameter represents the ACTUAL value of the health
         /// </summary>
         private Action<float> OnHealthModified;
+=======
+        [SerializeField]
+        private Slider healthBar; // Healthbar slider
+>>>>>>> origin/master:Assets/Scripts/Components/Player.cs
 
         /*******************  Unity Methods  *******************/
 
@@ -111,7 +117,17 @@ namespace RPG
         // TODO: Add comments for the callback registering functions
         public void RegisterOnHealthModifiedCallback(Action<float> callback)
         {
+<<<<<<< HEAD:Assets/Scripts/Components/Stats.cs
             OnHealthModified += callback;
+=======
+            // Changes the Health bars X value to be the same as the percentage health. 
+            // E.g At 50% health it will be half as long. At 0% health it will not be visible.
+
+            //healthBar.transform.localScale = new Vector3(HealthPercentage, 1);
+
+            //Sets the healthbar slider value to be current health
+            healthBar.value = currentHealth;
+>>>>>>> origin/master:Assets/Scripts/Components/Player.cs
         }
 
         public void RegisterOnDamageTakenCallback(Action<float> callback)
