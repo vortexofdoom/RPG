@@ -7,17 +7,15 @@
 using UnityEngine;
 using System.Collections;
 
-namespace RPG.Player
+namespace RPG
 {
     public class PlayerMovement : MonoBehaviour
     {
-
         [SerializeField]
-        float speed = 3f;
+        private float speed = 3f;
 
-        // Used so that Update can listen for input, and FixedUpdate can move the player 
-        float xMove;
-        float yMove;
+        // Used so that Update can listen for input, and FixedUpdate can move the player.
+        private Vector2 velocity;
 
         Rigidbody2D rb;
 
@@ -28,13 +26,22 @@ namespace RPG.Player
 
         void Update()
         {
-            xMove = Input.GetAxis("Horizontal") * speed;
-            yMove = Input.GetAxis("Vertical") * speed;
+            velocity.x += Input.GetAxis("Horizontal");
+            velocity.y += Input.GetAxis("Vertical");
+
+            // Stops the velocity being dependent on framerate
+            velocity *= Time.deltaTime;
         }
 
         void FixedUpdate()
         {
-            rb.velocity = new Vector2(xMove, yMove);
+            // Normalizes the velocity so that you don't move faster when moving diagonally
+            velocity.Normalize();
+
+            rb.velocity = velocity * speed;
+
+            // Resets the velocity
+            velocity = new Vector2();
         }
     }
 }

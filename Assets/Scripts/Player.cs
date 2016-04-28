@@ -9,5 +9,6 @@ namespace RPG.Player
 {
     public class Player : MonoBehaviour
     {
+        // This is where most of the info from character should go?
     }
 }
