@@ -6,9 +6,14 @@ namespace RPG
 {
     public class WaterStance : Stance
     {
+        private string iconPath = "Sprites/Water-Stance-Icon";
+
         public WaterStance()
         {
             StanceName = "Water";
+
+            if (StanceIcon == null)
+                StanceIcon = Resources.Load<Sprite>(iconPath);
         }
 
         public override void ActivateStance()

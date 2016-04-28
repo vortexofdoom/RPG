@@ -12,14 +12,14 @@ namespace RPG
         {
             AbilityName = "Slash";
 
-            if (abilityIcon == null)
-                abilityIcon = Resources.Load<Sprite>(iconPath);
+            if (AbilityIcon == null)
+                AbilityIcon = Resources.Load<Sprite>(iconPath);
         }
 
         /// <summary>
-        /// Activates this ability. Causing the player to slash in front of them. 
+        /// Actual logic for the ability goes here. This is where the collision stuff goes.
         /// </summary>
-        public override void UseAbility()
+        protected override void AbilityImplementation()
         {
             Debug.Log("You slash at the enemy -- Not implimented yet");
         }

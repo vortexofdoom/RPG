@@ -13,8 +13,7 @@ namespace RPG
         public string StanceName { get; protected set; }
 
         // will probably change this to a 'sprite Repository/cache' later on. So all sprites are loaded from one place
-        protected static Sprite stanceIcon;
-        public Sprite StanceIcon { get { return stanceIcon; } }
+        public Sprite StanceIcon { get; protected set; } 
 
         public virtual void ActivateStance() { }
         public virtual void DeactivateStance() { }

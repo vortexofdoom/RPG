@@ -24,9 +24,9 @@ namespace RPG
         {
             // Quick test to make sure the health gets updated properly.
             if (Time.time % 4 < 2) {
-                GetComponent<Player>().DealDamage(0.2f);
+                GetComponent<Stats>().DealDamage(0.2f);
             } else {
-                GetComponent<Player>().Heal(0.2f);
+                GetComponent<Stats>().Heal(0.2f);
             }
 
             

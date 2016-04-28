@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System;
 
 namespace RPG 
 {
@@ -13,13 +14,13 @@ namespace RPG
 
         private int activeStanceIndex;
         private Stance ActiveStance { get { return stances[activeStanceIndex]; } }
+        private Stance LeftStance { get { return stances[Mathf.Abs((activeStanceIndex - 1) % maxNumOfStances)]; } }
+        private Stance RightStance { get { return stances[Mathf.Abs((activeStanceIndex + 1) % maxNumOfStances)]; } }
 
-        [SerializeField]
-        private GameObject ActiveStanceButton; // Temporary for now
-        [SerializeField]
-        private GameObject PrevStanceButton; // Temporary for now
-        [SerializeField]
-        private GameObject NextStanceButton; // Temporary for now
+        /// <summary>
+        /// Stance order: Newly active stance, Stance to the left, Stance to the right (Look at UI)
+        /// </summary>
+        private Action<Stance, Stance, Stance> onStanceChange;
 
         private void Start()
         {
@@ -30,7 +31,10 @@ namespace RPG
 
             activeStanceIndex = 0;
 
-            UpdateUI();
+            if (onStanceChange == null)
+                onStanceChange = (active, left, right) => { };
+
+            SelectStance(1);
         }
 
         public void SelectStance(int newStanceIndex)
@@ -41,9 +45,12 @@ namespace RPG
 
             ActiveStance.DeactivateStance();
 
+            //Update active index
             activeStanceIndex = newStanceIndex;
 
-            UpdateUI();
+            ActiveStance.ActivateStance();
+
+            onStanceChange(ActiveStance, LeftStance, RightStance);
         }
 
         public void SelectNextStance()
@@ -56,20 +63,13 @@ namespace RPG
             SelectStance(Mathf.Abs((activeStanceIndex - 1) % maxNumOfStances));
         }
 
-        private void UpdateUI()
+        /// <summary>
+        /// Called when the state is altered (In the 'SelectStance' method)
+        /// </summary>
+        /// <param name="callback"></param>
+        public void RegisterOnStanceChangeCallback(Action<Stance, Stance, Stance> callback)
         {
-            // Update the active stance
-            ActiveStance.ActivateStance();
-            ActiveStanceButton.GetComponentInChildren<Text>().text = ActiveStance.StanceName;
-
-            /* Note the mathf.abs and % operator just make it so it loops around instead of going out of range of the array.
-               I will clean it up later, but for now this should work with any number of stances */
-
-            // Update the previous stance
-            PrevStanceButton.GetComponentInChildren<Text>().text = stances[Mathf.Abs((activeStanceIndex - 1) % maxNumOfStances)].StanceName;
-            
-            // Update the next stance
-            NextStanceButton.GetComponentInChildren<Text>().text = stances[Mathf.Abs((activeStanceIndex + 1) % maxNumOfStances)].StanceName;
+            onStanceChange += callback;
         }
     }
 }
