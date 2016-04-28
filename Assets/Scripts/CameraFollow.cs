@@ -8,11 +8,10 @@
 using UnityEngine;
 using System.Collections;
 
-namespace RPG.Camera
+namespace RPG
 {
     public class CameraFollow : MonoBehaviour
     {
-
         public Transform target;
 
         public float speed;

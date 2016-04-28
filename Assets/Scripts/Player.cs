@@ -5,7 +5,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace RPG.Player
+namespace RPG
 {
     public class Player : MonoBehaviour
     {

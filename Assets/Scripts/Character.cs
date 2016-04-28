@@ -6,11 +6,10 @@
 using UnityEngine;
 using System.Collections;
 
-namespace RPG.Character
+namespace RPG
 {
     public abstract class Character
     {
-
         string name;
         public string Name { get { return name; } } // Would this ever need to be changed once a character is created?
 

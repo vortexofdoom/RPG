@@ -6,6 +6,7 @@
 */
 using UnityEngine;
 using System.Collections;
+using System;
 
 namespace RPG
 {
@@ -28,7 +29,7 @@ namespace RPG
         {
             velocity.x += Input.GetAxis("Horizontal");
             velocity.y += Input.GetAxis("Vertical");
-
+            
             // Stops the velocity being dependent on framerate
             velocity *= Time.deltaTime;
         }
