@@ -73,8 +73,6 @@ namespace RPG
 
         private void Start()
         {
-            CurrentHealth = maxHealth;
-
             // Makes it so all the callbacks have an empty function. This will
             // Stop them returning null and crashing if they are empty.
             // If you dont understand this, **learn about Lambdas and delegates.**
@@ -87,6 +85,10 @@ namespace RPG
 
             if (OnHealthModified == null)
                 OnHealthModified = (x) => { };
+
+
+            CurrentHealth = maxHealth;
+
         }
 
         /*******************  Public Methods  *******************/
@@ -116,13 +118,6 @@ namespace RPG
         public void RegisterOnHealthModifiedCallback(Action<float> callback)
         {
             OnHealthModified += callback;
-            // Changes the Health bars X value to be the same as the percentage health. 
-            // E.g At 50% health it will be half as long. At 0% health it will not be visible.
-
-            //healthBar.transform.localScale = new Vector3(HealthPercentage, 1);
-
-            //Sets the healthbar slider value to be current health
-            healthBar.value = currentHealth;
         }
 
         public void RegisterOnDamageTakenCallback(Action<float> callback)
