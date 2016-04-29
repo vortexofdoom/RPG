@@ -3,42 +3,56 @@ using System.Collections.Generic;
 
 namespace RPG 
 {
-	public class InputMapping : MonoBehaviour {
-		
-		[SerializeField]
-		private Movement movementComponent;
+    public class InputMapping : MonoBehaviour {
 
-		private void Start()
-		{
-			if (movementComponent == null) {
-				Debug.LogAssertion("Forgot to add movement component in unity inspector");
-				movementComponent = GetComponent<Movement>();
-			}
-		}
+        [SerializeField]
+        private Movement movementComponent;
+        [SerializeField]
+        private AbilityHotbar abilityHotbar;
 
-		private void Update()
-		{
-			UpdateVelocity();
-		}
+        private void Start()
+        {
+            if (movementComponent == null) {
+                Debug.LogAssertion("Forgot to add movement component in unity inspector");
+                movementComponent = GetComponent<Movement>();
+            }
 
+            if (abilityHotbar == null) {
+                Debug.LogAssertion("Forgot to add abilityHotbar in unity inspector");
+                movementComponent = GetComponent<Movement>();
+            }
+        }
 
-		/// <summary>
-		/// Updates the players velocity based on inputs.
-		/// </summary>
-		private void UpdateVelocity()
-		{
-			var velocity = new Vector2();
+        private void Update()
+        {
+            UpdateVelocity();
+            UpdateAttacks();
+        }
 
-			// Will probably consider using ".GetAxisRaw" instead? This has a smoothing effect
-			// Which means you don't stop straight away
-			velocity.x = Input.GetAxis("Horizontal");
-			velocity.y = Input.GetAxis("Vertical");
+        private void UpdateAttacks()
+        {
+            if (Input.GetMouseButtonDown(0)) {
+                abilityHotbar.UseAbility(0);
+            }
+        }
 
-			// Stops the velocity being dependent on framerate
-			velocity *= Time.deltaTime;
+        /// <summary>
+        /// Updates the players velocity based on inputs.
+        /// </summary>
+        private void UpdateVelocity()
+        {
+            var velocity = new Vector2();
 
-			movementComponent.AddVelocity(velocity);
+            // Will probably consider using ".GetAxisRaw" instead? This has a smoothing effect
+            // Which means you don't stop straight away
+            velocity.x = Input.GetAxis("Horizontal");
+            velocity.y = Input.GetAxis("Vertical");
 
-		}
-	}
+            // Stops the velocity being dependent on framerate
+            velocity *= Time.deltaTime;
+
+            movementComponent.AddVelocity(velocity);
+
+        }
+    }
 }
