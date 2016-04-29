@@ -6,16 +6,15 @@ using System;
 namespace RPG 
 {
     public class StanceBar : MonoBehaviour {
-
-        [SerializeField]
-        private int maxNumOfStances;
+        
+        private int numOfStances { get { return stances.Length; } }
 
         private Stance[] stances;
 
         private int activeStanceIndex;
         private Stance ActiveStance { get { return stances[activeStanceIndex]; } }
-        private Stance LeftStance { get { return stances[Mathf.Abs((activeStanceIndex - 1) % maxNumOfStances)]; } }
-        private Stance RightStance { get { return stances[Mathf.Abs((activeStanceIndex + 1) % maxNumOfStances)]; } }
+        private Stance LeftStance { get { return stances[Mathf.Abs((activeStanceIndex - 1) % numOfStances)]; } }
+        private Stance RightStance { get { return stances[Mathf.Abs((activeStanceIndex + 1) % numOfStances)]; } }
 
         /// <summary>
         /// Stance order: Newly active stance, Stance to the left, Stance to the right (Look at UI)
@@ -24,7 +23,7 @@ namespace RPG
 
         private void Start()
         {
-            stances = new Stance[maxNumOfStances];
+            stances = new Stance[2];
 
             stances[0] = new FireStance();
             stances[1] = new WaterStance();
@@ -55,12 +54,12 @@ namespace RPG
 
         public void SelectNextStance()
         {
-            SelectStance(Mathf.Abs((activeStanceIndex + 1) % maxNumOfStances));
+            SelectStance(Mathf.Abs((activeStanceIndex + 1) % numOfStances));
         }
         
         public void SelectPrevStance()
         {
-            SelectStance(Mathf.Abs((activeStanceIndex - 1) % maxNumOfStances));
+            SelectStance(Mathf.Abs((activeStanceIndex - 1) % numOfStances));
         }
 
         /// <summary>

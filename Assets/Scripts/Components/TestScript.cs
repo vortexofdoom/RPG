@@ -28,8 +28,6 @@ namespace RPG
             } else {
                 GetComponent<Stats>().Heal(0.2f);
             }
-
-            
         }
         
     }

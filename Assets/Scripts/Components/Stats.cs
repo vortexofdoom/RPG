@@ -25,10 +25,14 @@ namespace RPG
 
         public float CurrentHealth {
             get { return currentHealth; }
-            set {
+            protected set {
                 // Stops health going above max health, and below 0
                 currentHealth = Mathf.Clamp(value, 0, maxHealth);
-                OnHealthModified(currentHealth);
+
+                if (onHealthModified == null)
+                    return;
+
+                onHealthModified(currentHealth);
             }
         }
         
@@ -44,7 +48,13 @@ namespace RPG
 
         [SerializeField]
         private float maxHealth;
-        
+
+        [SerializeField]
+        private float baseStrength;
+
+        [SerializeField]
+        private float baseAgility;
+
         /*******************  Callbacks *******************/
 
         /// <summary>
@@ -52,43 +62,25 @@ namespace RPG
         /// The int parameter refers to the AMOUNT of damage taken
         /// Note: More parameters can be added, such as the source, etc
         /// </summary>
-        private Action<float> OnTakeDamage;
+        private Action<float> onTakeDamage;
 
         /// <summary>
         /// Callback for when healing is recieved
         /// The int parameter refers to the AMOUNT of healing recieved
         /// </summary>
-        private Action<float> OnRecieveHeal;
+        private Action<float> onRecieveHeal;
 
         /// <summary>
         /// Callback for when health has been modified in any way. This includes 
         /// the value being set. The float parameter represents the ACTUAL value of the health
         /// </summary>
-        private Action<float> OnHealthModified;
-
-        [SerializeField]
-        private Slider healthBar; // Healthbar slider
-
+        private Action<float> onHealthModified;
+        
         /*******************  Unity Methods  *******************/
 
         private void Start()
         {
-            // Makes it so all the callbacks have an empty function. This will
-            // Stop them returning null and crashing if they are empty.
-            // If you dont understand this, **learn about Lambdas and delegates.**
-
-            if (OnRecieveHeal == null)
-                OnRecieveHeal = (x) => { };
-
-            if (OnTakeDamage == null)
-                OnTakeDamage = (x) => { };
-
-            if (OnHealthModified == null)
-                OnHealthModified = (x) => { };
-
-
             CurrentHealth = maxHealth;
-
         }
 
         /*******************  Public Methods  *******************/
@@ -100,7 +92,11 @@ namespace RPG
         public void DealDamage(float damageAmount)
         {
             CurrentHealth -= damageAmount;
-            OnTakeDamage(damageAmount);
+
+            if (onTakeDamage == null)
+                return;
+
+            onTakeDamage(damageAmount);
         }
 
         /// <summary>
@@ -111,23 +107,41 @@ namespace RPG
         public void Heal(float healAmount)
         {
             CurrentHealth += healAmount;
-            OnRecieveHeal(healAmount);
+
+            if (onRecieveHeal == null)
+                return;
+
+            onRecieveHeal(healAmount);
         }
 
-        // TODO: Add comments for the callback registering functions
+        /// <summary>
+        /// Registers a listener for when the players health is set to a new value.
+        /// This will still be called even if the health doesn't change (Already at 0 or full health)
+        /// </summary>
+        /// <param name="callback">Function template. The float param is the total current health</param>
         public void RegisterOnHealthModifiedCallback(Action<float> callback)
         {
-            OnHealthModified += callback;
+            onHealthModified += callback;
         }
 
+        /// <summary>
+        /// Registers a listener for when the player recieves damage
+        /// This will still be called even if the health doesn't change (Damage is 0)
+        /// </summary>
+        /// <param name="callback">Function template. The float param is the total current health</param>
         public void RegisterOnDamageTakenCallback(Action<float> callback)
         {
-            OnTakeDamage += callback;
+            onTakeDamage += callback;
         }
 
+        /// <summary>
+        /// Registers a listener for when the players gets a heal
+        /// This will still be called even if the health doesn't change (Recieves a heal of 0 or at full health)
+        /// </summary>
+        /// <param name="callback">Function template. The float param is the total current health</param>
         public void RegisterOnHealRecievedCallback(Action<float> callback)
         {
-            OnRecieveHeal += callback;
+            onRecieveHeal += callback;
         }
 
         /*******************  Private Methods  *******************/

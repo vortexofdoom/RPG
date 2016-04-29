@@ -15,13 +15,17 @@ namespace RPG
 
         [SerializeField]
         private Slider healthBar;
+        
+        [SerializeField]
+        private Button[] abilityButtons;
+        private Image[] abilityImages;
 
         [SerializeField]
-        private Image ActiveStanceImage;
-        [SerializeField]
-        private Image RightStanceImage;
-        [SerializeField]
         private Image leftStanceImage;
+        [SerializeField]
+        private Image rightStanceImage;
+        [SerializeField]
+        private Image activeStanceImage;
 
 
         private void Awake()
@@ -31,10 +35,20 @@ namespace RPG
                 Inst = this;
         }
 
-        public void UpdateHealthBarValue(float newVal)
+        public void UpdateHealthBarValue(float percentage)
         {
             // This will probably have to be changed?
-            healthBar.value = newVal;
+            healthBar.value = percentage;
+        }
+
+        public void SetAbilityIcon(int index, Sprite newSprite)
+        {
+            abilityButtons[index].GetComponent<Image>().sprite = newSprite;
+        }
+
+        public void SetAbilityState(int index, bool interactable)
+        {
+            abilityButtons[index].interactable = interactable;
         }
 
         public void SetLeftStance(Sprite newStanceIcon)
@@ -44,12 +58,12 @@ namespace RPG
 
         public void SetRightStance(Sprite newStanceIcon)
         {
-            RightStanceImage.sprite = newStanceIcon;
+            rightStanceImage.sprite = newStanceIcon;
         }
 
         public void SetActiveStance(Sprite newStanceIcon)
         {
-            ActiveStanceImage.sprite = newStanceIcon;
+            activeStanceImage.sprite = newStanceIcon;
         }
     }
 }

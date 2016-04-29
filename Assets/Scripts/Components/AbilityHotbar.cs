@@ -1,22 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System;
 
 namespace RPG 
 {
     public class AbilityHotbar : MonoBehaviour {
-        [SerializeField]
-        private int maxNumOfAbilities;
-
+       
         [SerializeField]
         private Ability[] activeAbilities;
 
-        [SerializeField]
-        private GameObject[] abilityButtons;
-
+        private Action<int, Ability> onAbilityChanged;
+        
         private void Awake()
         {
-            activeAbilities = new Ability[maxNumOfAbilities];
+            activeAbilities = new Ability[4];
         }
 
         /// <summary>
@@ -45,26 +43,24 @@ namespace RPG
 
         /// <summary>
         /// Adds/overrides an ability to the hotbar
-        /// </summary>
+        /// </summary> 
         /// <param name="index">The index of the new ability</param>
         /// <param name="newAbility">New ability to add</param>
         public void SetAbility(int index, Ability newAbility)
         {
             // We don't want to set the ability to null. There will be a separate method to remove abilities 
-            if (newAbility == null) {
+            if (newAbility == null) 
                 Debug.LogError("New Ability being added is null (Index " + index + ")");
-                abilityButtons[index].GetComponent<Button>().interactable = false;
-                return;
-            }
 
             activeAbilities[index] = newAbility;
             
-            abilityButtons[index].GetComponent<Image>().sprite = newAbility.AbilityIcon;
-            abilityButtons[index].GetComponent<Button>().interactable = true;
-
-            //Change the text of the button so we know what ability is bound to that button (No longer needed)
-            //abilityButtons[index].GetComponentInChildren<Text>().text = newAbility.AbilityName;
+            onAbilityChanged(index, newAbility);
         }
         
+        public void RegisterOnAbilityChangedCallback(Action<int, Ability> callback)
+        {
+            onAbilityChanged += callback;
+        }
+
     }
 }
