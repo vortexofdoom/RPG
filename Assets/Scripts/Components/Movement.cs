@@ -1,4 +1,4 @@
-﻿/*
+/*
     Uses basic Up, down, left, and right movement.
     Movement is based off Horizontal, and Vertical Axis
   
@@ -17,11 +17,15 @@ namespace RPG
         // Used so that Update can listen for input, and FixedUpdate can move the player.
         private Vector2 velocity;
 
+        // Reference to the animator
+        private Animator anim;
+
         Rigidbody2D rb;
 
         void Start()
         {
             rb = GetComponent<Rigidbody2D>();
+            anim = GetComponent<Animator>();
         }
 
         public void AddVelocity(Vector2 newVelocity)
@@ -31,6 +35,7 @@ namespace RPG
 
         void FixedUpdate()
         {
+
             // Normalizes the velocity so that you don't move faster when moving diagonally
             velocity.Normalize();
 
@@ -38,6 +43,10 @@ namespace RPG
 
             // Resets the velocity
             velocity = new Vector2();
+
+            // Sets the 'MoveVelX' and 'MoveVelY' Animator Parameters 
+            anim.SetFloat("MoveVelX", Input.GetAxisRaw("Horizontal"));
+            anim.SetFloat("MoveVelY", Input.GetAxisRaw("Vertical"));
         }
     }
 }
