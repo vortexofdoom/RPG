@@ -1,7 +1,12 @@
 fileFormatVersion: 2
 guid: af44e54838ca9b441810b1d3dccc3406
+<<<<<<< HEAD
 timeCreated: 1461949358
 licenseType: Pro
+=======
+timeCreated: 1461942196
+licenseType: Free
+>>>>>>> refs/remotes/origin/master
 TextureImporter:
   fileIDToRecycleName:
     21300000: baldricfrontwalksheet copy_0
