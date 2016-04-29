@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: af44e54838ca9b441810b1d3dccc3406
-timeCreated: 1461935647
+timeCreated: 1461942196
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -93,15 +93,15 @@ TextureImporter:
         y: 195
         width: 32
         height: 46
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 5, y: 46}
-        - {x: 0, y: 36}
-        - {x: 0, y: 0}
-        - {x: 32, y: 0}
-        - {x: 32, y: 46}
+      - - {x: -11, y: 23}
+        - {x: -16, y: 13}
+        - {x: -16, y: -23}
+        - {x: 16, y: -23}
+        - {x: 16, y: 23}
     - name: baldricfrontwalksheet copy_1
       rect:
         serializedVersion: 2
