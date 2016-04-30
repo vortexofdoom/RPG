@@ -41,12 +41,19 @@ namespace RPG
 
             rb.velocity = velocity * speed;
 
+            // Sets the 'MoveVelX' and 'MoveVelY' Animator Parameters 
+            // Made it based off the velocity, not the input as other factors
+            // Can change the direction of the character. 
+            anim.SetFloat("MoveVelX", velocity.x);
+        
+            anim.SetFloat("MoveVelY", velocity.y);
+            // Stops him from trying to face up when he is already moving left/right
+            if (velocity.x != 0)
+                anim.SetFloat("MoveVelY", 0);
+
+
             // Resets the velocity
             velocity = new Vector2();
-
-            // Sets the 'MoveVelX' and 'MoveVelY' Animator Parameters 
-            anim.SetFloat("MoveVelX", Input.GetAxisRaw("Horizontal"));
-            anim.SetFloat("MoveVelY", Input.GetAxisRaw("Vertical"));
         }
     }
 }
