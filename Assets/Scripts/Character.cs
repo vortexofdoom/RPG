@@ -4,6 +4,8 @@ using RPG;
 
 public class Character : MonoBehaviour {
 	
+	
+	#region Stats and Stat-related functions [Vortex]
 	//Primal Stats
 	private float primalStat1;
 	private float primalStat2;
@@ -13,25 +15,13 @@ public class Character : MonoBehaviour {
 	private float agi;  //Agility	[Select physical abilities and things like movement Speed]
 	private float pwr;  //Power		[Most non-physical abilities]
 
-	//one way to include stances in a character is hardcode them
-	//using these for now	
-	/// <summary>
-	/// <para>TODO: Fix the use of the Stance class.</para>
-	/// <para>Possible Fix 1: Figure out the AddComponent() function</para>
-	/// <para>Possible Fix 2: Change Stance to a ScriptableObject</para>
-	/// </summary>
-
-	protected Stance[] stances; //wish we could use this array to drag Stance derived scripts into the inspector
+	private Stance[] stances; //wish we could use this array to drag Stance derived scripts into the inspector
 	private int currentStance;
-
-	void Start() {
-		stances = GetComponents<Stance>();
-		currentStance = 0;
-		ActivateStance(stances[currentStance]);
-	}
 
 	//There is an argument to be made for incorporating this into the Stance class
 	//If we did this I would just name it Activate() and take no arguments
+	//Also a candidate for being broken out into future Controller class
+	//I'd probably keep this and split off SwitchStance() instead [Vortex]
 	void ActivateStance(Stance someStance)
 	{
 		str = someStance.Str();
@@ -43,21 +33,24 @@ public class Character : MonoBehaviour {
 
 	/// <summary>
 	/// <para>Switches the stance.</para>
-	/// true for next stance, false for previous stance
+	/// true for next stance, false for previous stance (default true)
 	/// </summary>
-	void SwitchStance(bool next)
+	void SwitchStance(bool next = true)	//Definitely a candidate for a split off into Controller class [Vortex]
 	{
-		int max = stances.Length - 1; //just to clear up the array indexing confusion
+		int max = stances.Length - 1;	//just to clear up the array indexing confusion
 		if (next) {
 			if ( currentStance < max) {
 				currentStance++;
-			} else {
+			}
+			else {
 				currentStance = 0;
 			}
-		} else {
+		}
+		else {
 			if (currentStance > 0) {
 				currentStance--;
-			} else {
+			}
+			else {
 				currentStance = max;
 			}
 		}
@@ -75,18 +68,72 @@ public class Character : MonoBehaviour {
 	//	stat = startStat;
 	//}
 
+	#endregion
+
+	#region Movement-related Code from Movement.cs [NostroVostro + Lolop] 
+	[SerializeField]
+	private float speed = 3f;
+
+	// Used so that Update can listen for input, and FixedUpdate can move the player.
+	private Vector2 velocity;
+
+	// Reference to the animator
+	private Animator anim;
+
+	Rigidbody2D rigidBody;
+
+	public void AddVelocity(Vector2 newVelocity)
+	{
+		velocity += newVelocity;
+	}
+
+	#endregion
+
+	void Start()
+	{
+		rigidBody = GetComponent<Rigidbody2D>();
+		anim = GetComponent<Animator>();
+		stances = GetComponents<Stance>();
+		currentStance = 0;
+		ActivateStance(stances[currentStance]);
+	}
+
 	void Update()
 	{
 		//checking if the input is asking for a stance change, here represented by a quick and dirty arrow key check
-		//Need to plug input back in next
+		//Need to plug input back in
 		//the idea of pulling it out of update directly is to set these character-bound variables once per stance change
 		//then leave them until next time the stance changes, rather than calculating every frame
 		if (Input.GetKeyDown(KeyCode.RightArrow))
 		{
 			SwitchStance(true);
 		}
-		else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+		else if (Input.GetKeyDown(KeyCode.LeftArrow))
+		{
 			SwitchStance(false);
 		}
+	}
+
+	void FixedUpdate()  //only contains Movement code atm
+	{
+
+		// Normalizes the velocity so that you don't move faster when moving diagonally
+		velocity.Normalize();
+
+		rigidBody.velocity = velocity * speed;
+
+		// Sets the 'MoveVelX' and 'MoveVelY' Animator Parameters 
+		// Made it based off the velocity, not the input as other factors
+		// Can change the direction of the character. 
+		anim.SetFloat("MoveVelX", velocity.x);
+
+		anim.SetFloat("MoveVelY", velocity.y);
+		// Stops him from trying to face up when he is already moving left/right
+		if (velocity.x != 0)
+			anim.SetFloat("MoveVelY", 0);
+
+
+		// Resets the velocity
+		velocity = new Vector2();
 	}
 }

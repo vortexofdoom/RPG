@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System;
 
-
 public sealed class EarthStance : Stance
 {
 	//private string iconPath = "Sprites/Water-Stance-Icon";

@@ -6,7 +6,11 @@ using System.Collections.Generic;
 /// Sets up the basic functions required for an Stance to operate.
 /// </summary>
 public class Stance : MonoBehaviour
-{		
+{	
+	public Stance() {
+		
+	}
+		
 	public string StanceName { get; protected set; }
 
 	// will probably change this to a 'sprite Repository/cache' later on. So all sprites are loaded from one place
