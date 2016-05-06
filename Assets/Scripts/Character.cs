@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using RPG;
+using System;
 
+[System.Serializable]
 public class Character : MonoBehaviour {
 	
 	
@@ -71,6 +72,13 @@ public class Character : MonoBehaviour {
 
 	#endregion
 
+	#region Inventory-related Code [Vortex]
+
+	[SerializeField]
+	private Inventory inventory;
+
+	#endregion
+
 	#region Movement-related Code from Movement.cs [NostroVostro + Lolop] 
 	[SerializeField]
 	private float speed = 3f;
@@ -105,11 +113,11 @@ public class Character : MonoBehaviour {
 		//Need to plug input back in
 		//the idea of pulling it out of update directly is to set these character-bound variables once per stance change
 		//then leave them until next time the stance changes, rather than calculating every frame
-		if (Input.GetKeyDown(KeyCode.RightArrow))
+		if (Input.GetKeyDown(KeyCode.E))
 		{
 			SwitchStance(true);
 		}
-		else if (Input.GetKeyDown(KeyCode.LeftArrow))
+		else if (Input.GetKeyDown(KeyCode.Q))
 		{
 			SwitchStance(false);
 		}

@@ -1,71 +1,72 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.UI;
-using System;
+﻿//using UnityEngine;
+//using System.Collections.Generic;
+//using UnityEngine.UI;
+//using System;
 
-//public class StanceBar : MonoBehaviour {
-        
-//    private int numOfStances { get { return stances.Length; } }
+//public class StanceBar : MonoBehaviour
+//{
 
-//    private Stance[] stances;
+//	private int numOfStances { get { return stances.Length; } }
 
-//    private int activeStanceIndex;
-//    private Stance ActiveStance { get { return stances[activeStanceIndex]; } }
-//    private Stance LeftStance { get { return stances[Mathf.Abs((activeStanceIndex - 1) % numOfStances)]; } }
-//    private Stance RightStance { get { return stances[Mathf.Abs((activeStanceIndex + 1) % numOfStances)]; } }
+//	private Stance[] stances;
 
-//    /// <summary>
-//    /// Stance order: Newly active stance, Stance to the left, Stance to the right (Look at UI)
-//    /// </summary>
-//    private Action<Stance, Stance, Stance> onStanceChange;
+//	private int activeStanceIndex;
+//	private Stance ActiveStance { get { return stances[activeStanceIndex]; } }
+//	private Stance LeftStance { get { return stances[Mathf.Abs((activeStanceIndex - 1) % numOfStances)]; } }
+//	private Stance RightStance { get { return stances[Mathf.Abs((activeStanceIndex + 1) % numOfStances)]; } }
 
-//    private void Start()
-//    {
-//        stances = new Stance[2];
+//	/// <summary>
+//	/// Stance order: Newly active stance, Stance to the left, Stance to the right (Look at UI)
+//	/// </summary>
+//	private Action<Stance, Stance, Stance> onStanceChange;
 
-//        stances[0] = new FireStance();
-//        stances[1] = new WaterStance();
+//	private void Start()
+//	{
+//		stances = new Stance[2];
 
-//        activeStanceIndex = 0;
+//		stances[0] = new FireStance();
+//		stances[1] = new WaterStance();
 
-//        if (onStanceChange == null)
-//            onStanceChange = (active, left, right) => { };
+//		activeStanceIndex = 0;
 
-//        SelectStance(1);
-//    }
+//		if (onStanceChange == null)
+//			onStanceChange = (active, left, right) => { };
 
-//    public void SelectStance(int newStanceIndex)
-//    {
-//        // Check if the stance is already active
-//        if (stances[newStanceIndex] == ActiveStance)
-//            return;
+//		SelectStance(1);
+//	}
 
-//        ActiveStance.DeactivateStance();
+//	public void SelectStance(int newStanceIndex)
+//	{
+//		// Check if the stance is already active
+//		if (stances[newStanceIndex] == ActiveStance)
+//			return;
 
-//        //Update active index
-//        activeStanceIndex = newStanceIndex;
+//		ActiveStance.DeactivateStance();
 
-//        ActiveStance.ActivateStance();
+//		//Update active index
+//		activeStanceIndex = newStanceIndex;
 
-//        onStanceChange(ActiveStance, LeftStance, RightStance);
-//    }
+//		ActiveStance.ActivateStance();
 
-//    public void SelectNextStance()
-//    {
-//        SelectStance(Mathf.Abs((activeStanceIndex + 1) % numOfStances));
-//    }
-        
-//    public void SelectPrevStance()
-//    {
-//        SelectStance(Mathf.Abs((activeStanceIndex - 1) % numOfStances));
-//    }
+//		onStanceChange(ActiveStance, LeftStance, RightStance);
+//	}
 
-//    /// <summary>
-//    /// Called when the state is altered (In the 'SelectStance' method)
-//    /// </summary>
-//    /// <param name="callback"></param>
-//    public void RegisterOnStanceChangeCallback(Action<Stance, Stance, Stance> callback)
-//    {
-//        onStanceChange += callback;
-//    }
+//	public void SelectNextStance()
+//	{
+//		SelectStance(Mathf.Abs((activeStanceIndex + 1) % numOfStances));
+//	}
+
+//	public void SelectPrevStance()
+//	{
+//		SelectStance(Mathf.Abs((activeStanceIndex - 1) % numOfStances));
+//	}
+
+//	/// <summary>
+//	/// Called when the state is altered (In the 'SelectStance' method)
+//	/// </summary>
+//	/// <param name="callback"></param>
+//	public void RegisterOnStanceChangeCallback(Action<Stance, Stance, Stance> callback)
+//	{
+//		onStanceChange += callback;
+//	}
 //}
