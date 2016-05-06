@@ -6,16 +6,16 @@ using System.Collections.Generic;
 /// Sets up the basic functions required for an Stance to operate.
 /// </summary>
 [System.Serializable]
-public class Stance
+public class Stance : MonoBehaviour
 {	
 	public Stance() {
 		
 	}
 		
-	public string StanceName { get; protected set; }
+	public string stanceName { get; set; }
 
 	// will probably change this to a 'sprite Repository/cache' later on. So all sprites are loaded from one place
-	public Sprite StanceIcon { get; protected set; }
+	public Sprite stanceIcon { get; set; }
 	
 	public virtual float Str() { return 0f; }
 	public virtual float Agi() { return 0f; }

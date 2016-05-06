@@ -2,9 +2,10 @@
 using System.Collections;
 
 [System.Serializable]
-public class Inventory {
-	
-	public GameObject[] inventory;
+public class Inventory
+{
+
+	public GameObject[] items;
 
 	public bool isMerchant = false;
 

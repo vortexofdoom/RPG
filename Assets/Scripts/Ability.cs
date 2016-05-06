@@ -13,13 +13,4 @@ public abstract class Ability : MonoBehaviour {
 
 	private Character character;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }
