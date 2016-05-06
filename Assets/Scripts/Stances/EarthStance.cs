@@ -2,28 +2,28 @@
 using System.Collections.Generic;
 using System;
 
-public sealed class WaterStance : Stance
+public sealed class EarthStance : Stance
 {
 	//private string iconPath = "Sprites/Water-Stance-Icon";
 
-	//public WaterStance()
+	//public EarthStance()
 	//{
-	//	StanceName = "Water";
+	//	StanceName = "Earth";
 
 	//	if (StanceIcon == null)
 	//		StanceIcon = Resources.Load<Sprite>(iconPath);
 	//}
-	
+
 	public override float Str()
 	{
-		return 4f;
+		return 7f;
 	}
 	public override float Agi()
 	{
-		return 5f;
+		return 8f;
 	}
 	public override float Pwr()
 	{
-		return 6f;
+		return 9f;
 	}
 }
