@@ -15,6 +15,7 @@ public class Character : MonoBehaviour {
 	private float agi;  //Agility	[Select physical abilities and things like movement Speed]
 	private float pwr;  //Power		[Most non-physical abilities]
 
+	[SerializeField]
 	private Stance[] stances; //wish we could use this array to drag Stance derived scripts into the inspector
 	private int currentStance;
 

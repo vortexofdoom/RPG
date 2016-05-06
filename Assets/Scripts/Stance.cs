@@ -5,7 +5,8 @@ using System.Collections.Generic;
 /// Abstract base class for all abilities.
 /// Sets up the basic functions required for an Stance to operate.
 /// </summary>
-public class Stance : MonoBehaviour
+[System.Serializable]
+public class Stance
 {	
 	public Stance() {
 		
