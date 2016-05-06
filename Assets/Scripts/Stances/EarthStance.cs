@@ -5,15 +5,15 @@ using System;
 
 public sealed class EarthStance : Stance
 {
-	private string iconPath = "Sprites/Water-Stance-Icon";
+	//private string iconPath = "Sprites/Water-Stance-Icon";
 
-	public EarthStance()
-	{
-		StanceName = "Water";
+	//public EarthStance()
+	//{
+	//	StanceName = "Earth";
 
-		if (StanceIcon == null)
-			StanceIcon = Resources.Load<Sprite>(iconPath);
-	}
+	//	if (StanceIcon == null)
+	//		StanceIcon = Resources.Load<Sprite>(iconPath);
+	//}
 
 	public override float Str()
 	{

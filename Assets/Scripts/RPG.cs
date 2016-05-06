@@ -122,7 +122,7 @@ namespace RPGtest {
 
 		void Update()
 		{
-			//checking if the input is asking for a stance change, here represented by a quick and dirty spacebar check
+			//checking if the input is asking for a stance change, here represented by a quick and dirty arrow key check
 			//Need to plug input back in
 			//the idea of pulling it out of update directly is to set these character-bound variables once per stance change
 			//then leave them until next time the stance changes, rather than calculating every frame

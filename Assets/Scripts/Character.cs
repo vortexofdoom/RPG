@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using RPG;
 
 public class Character : MonoBehaviour {
@@ -20,16 +20,14 @@ public class Character : MonoBehaviour {
 	/// <para>Possible Fix 1: Figure out the AddComponent() function</para>
 	/// <para>Possible Fix 2: Change Stance to a ScriptableObject</para>
 	/// </summary>
-	private Stance fireStance;
-	private Stance waterStance;
-	private Stance earthStance;
 
-	private Stance[] stances;       //wish we could use this array to drag Stance derived scripts into the inspector
-	private Stance currentStance;   //Variable to assign your current stance to and call functions from
+	protected Stance[] stances; //wish we could use this array to drag Stance derived scripts into the inspector
+	private int currentStance;
 
 	void Start() {
-		stances = new Stance[] { fireStance, waterStance, earthStance };
-		currentStance = stances[0];
+		stances = GetComponents<Stance>();
+		currentStance = 0;
+		ActivateStance(stances[currentStance]);
 	}
 
 	//There is an argument to be made for incorporating this into the Stance class
@@ -39,24 +37,31 @@ public class Character : MonoBehaviour {
 		str = someStance.Str();
 		agi = someStance.Agi();
 		pwr = someStance.Pwr();
-		Debug.Log(someStance + " currently active");
+		Debug.Log("Current Stance: " + stances[currentStance]);
+		Debug.Log("Str: " + str + " Agi: " + agi + " Pwr: " + pwr);
 	}
 
-	void SwitchStance()
+	/// <summary>
+	/// <para>Switches the stance.</para>
+	/// true for next stance, false for previous stance
+	/// </summary>
+	void SwitchStance(bool next)
 	{
-		int max = stances.Length;
-		for (int i = 0; i < max - 1; i++)
-		{
-			if (i != max)
-			{
-				currentStance = stances[i + 1];
+		int max = stances.Length - 1; //just to clear up the array indexing confusion
+		if (next) {
+			if ( currentStance < max) {
+				currentStance++;
+			} else {
+				currentStance = 0;
 			}
-			else {
-				currentStance = stances[0];
+		} else {
+			if (currentStance > 0) {
+				currentStance--;
+			} else {
+				currentStance = max;
 			}
-			Debug.Log("Current Stance: " + currentStance);
-			ActivateStance(currentStance);
 		}
+		ActivateStance(stances[currentStance]);
 	}
 
 	///TODO: Fix this dumb implementation
@@ -72,13 +77,16 @@ public class Character : MonoBehaviour {
 
 	void Update()
 	{
-		//checking if the input is asking for a stance change, here represented by a quick and dirty spacebar check
+		//checking if the input is asking for a stance change, here represented by a quick and dirty arrow key check
 		//Need to plug input back in next
 		//the idea of pulling it out of update directly is to set these character-bound variables once per stance change
 		//then leave them until next time the stance changes, rather than calculating every frame
-		if (Input.GetKeyDown(KeyCode.Space))
+		if (Input.GetKeyDown(KeyCode.RightArrow))
 		{
-			SwitchStance();
+			SwitchStance(true);
+		}
+		else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
+			SwitchStance(false);
 		}
 	}
 }
