@@ -4,17 +4,14 @@ using System;
 
 public sealed class FireStance : Stance
 {
-    //private string iconPath = "Sprites/Fire-Stance-Icon";
+    // I know this is probably new. But all it means is it calls the base constructor (Check the stance class)
+    // With the charReference as the parameter. This was autoimlemented.
+    public FireStance(Character charReference) : base(charReference)
+    {
 
-    //public FireStance()
-    //{
-    //	StanceName = "Fire";
-            
-    //	if (StanceIcon == null)
-    //		StanceIcon = Resources.Load<Sprite>(iconPath);
-    //}
+    }
 
-	public override float Str()
+    public override float Str()
 	{
 		return 1f;
 	}

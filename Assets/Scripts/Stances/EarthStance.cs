@@ -4,17 +4,15 @@ using System;
 
 public sealed class EarthStance : Stance
 {
-	//private string iconPath = "Sprites/Water-Stance-Icon";
+    // I know this is probably new. But all it means is it calls the base constructor (Check the stance class)
+    // With the charReference as the parameter. This was autoimlemented.
+    public EarthStance(Character charReference) : base(charReference)
+    {
 
-	//public EarthStance()
-	//{
-	//	StanceName = "Earth";
+    }
 
-	//	if (StanceIcon == null)
-	//		StanceIcon = Resources.Load<Sprite>(iconPath);
-	//}
 
-	public override float Str()
+    public override float Str()
 	{
 		return 7f;
 	}

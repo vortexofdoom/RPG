@@ -16,7 +16,7 @@ public class Character : MonoBehaviour {
 	private float agi;  //Agility	[Select physical abilities and things like movement Speed]
 	private float pwr;  //Power		[Most non-physical abilities]
 
-	[SerializeField]
+	// Doesn't need to be visible in the inspector as you found you can't add stances that way. 
 	private Stance[] stances; //wish we could use this array to drag Stance derived scripts into the inspector
 	private int currentStance;
 
@@ -24,11 +24,13 @@ public class Character : MonoBehaviour {
 	//If we did this I would just name it Activate() and take no arguments
 	//Also a candidate for being broken out into future Controller class
 	//I'd probably keep this and split off SwitchStance() instead [Vortex]
-	void ActivateStance(Stance someStance)
+	public void ActivateStance(int stanceIndex)
 	{
-		str = someStance.Str();
-		agi = someStance.Agi();
-		pwr = someStance.Pwr();
+        currentStance = stanceIndex;
+
+		str = stances[currentStance].Str();
+		agi = stances[currentStance].Agi();
+		pwr = stances[currentStance].Pwr();
 		Debug.Log("Current Stance: " + stances[currentStance]);
 		Debug.Log("Str: " + str + " Agi: " + agi + " Pwr: " + pwr);
 	}
@@ -56,7 +58,7 @@ public class Character : MonoBehaviour {
 				currentStance = max;
 			}
 		}
-		ActivateStance(stances[currentStance]);
+		ActivateStance(currentStance);
 	}
 
 	///TODO: Fix this dumb implementation
@@ -98,13 +100,12 @@ public class Character : MonoBehaviour {
 
 	#endregion
 
-	void Start()
+	void Awake()
 	{
 		rigidBody = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
-		stances = GetComponents<Stance>();
+        stances = new Stance[3];
 		currentStance = 0;
-		ActivateStance(stances[currentStance]);
 	}
 
 	void Update()
@@ -145,4 +146,12 @@ public class Character : MonoBehaviour {
 		// Resets the velocity
 		velocity = new Vector2();
 	}
+
+    public void SetStance(int index, Stance newStance)
+    {
+        // Could just have this so it adds it onto the end but couldn't be bothered with that.
+        // You could also check for out of bounds stuff here, etc.
+        
+        stances[index] = newStance;
+    }
 }

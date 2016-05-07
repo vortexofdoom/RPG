@@ -6,12 +6,8 @@ using System.Collections.Generic;
 /// Sets up the basic functions required for an Stance to operate.
 /// </summary>
 [System.Serializable]
-public class Stance : MonoBehaviour
+public class Stance
 {	
-	public Stance() {
-		
-	}
-		
 	public string stanceName { get; set; }
 
 	// will probably change this to a 'sprite Repository/cache' later on. So all sprites are loaded from one place
@@ -23,8 +19,12 @@ public class Stance : MonoBehaviour
 
 	private Character character;
 
-	void Start()
-	{
-		character = GetComponent<Character>();
-	}
+    /// <summary>
+    /// Constructor taking the reference to the character creating this stance. 
+    /// </summary>
+    /// <param name="charReference">Reference to the character</param>
+	public Stance(Character charReference)
+    {
+        character = charReference;
+    }
 }

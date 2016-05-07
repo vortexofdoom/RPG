@@ -5,12 +5,13 @@ using System.Collections;
 /// Abstract base class for all abilities.
 /// Sets up the basic functions required for an ability to operate.
 /// </summary>
-public abstract class Ability : MonoBehaviour {
-
-	public Ability() {
-		character = GetComponent<Character>();
-	}
+public abstract class Ability  {
 
 	private Character character;
 
+
+    public Ability(Character charReference)
+    {
+        character = charReference;
+    }
 }
