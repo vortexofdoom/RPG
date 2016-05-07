@@ -5,7 +5,6 @@ using System;
 [System.Serializable]
 public class Character : MonoBehaviour {
 	
-	
 	#region Stats and Stat-related functions [Vortex]
 	//Primal Stats
 	private float primalStat1;
@@ -15,16 +14,21 @@ public class Character : MonoBehaviour {
 	private float str;  //Strength	[Most physical abilities and things like HP]
 	private float agi;  //Agility	[Select physical abilities and things like movement Speed]
 	private float pwr;  //Power		[Most non-physical abilities]
-
-	[SerializeField]
+	
 	private Stance[] stances; //wish we could use this array to drag Stance derived scripts into the inspector
 	private int currentStance;
+
+
+	//Not a stat but should probably declare it here
+	private Ability[] activeAbilities;
+	private int abilityIndex;
+
 
 	//There is an argument to be made for incorporating this into the Stance class
 	//If we did this I would just name it Activate() and take no arguments
 	//Also a candidate for being broken out into future Controller class
 	//I'd probably keep this and split off SwitchStance() instead [Vortex]
-	void ActivateStance(Stance someStance)
+	public void ActivateStance(Stance someStance)
 	{
 		str = someStance.Str();
 		agi = someStance.Agi();
@@ -34,10 +38,10 @@ public class Character : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// <para>Switches the stance.</para>
-	/// true for next stance, false for previous stance (default true)
+	/// <para>Switches the character's stance</para>
 	/// </summary>
-	void SwitchStance(bool next = true)	//Definitely a candidate for a split off into Controller class [Vortex]
+	/// <param name="next">true for next stance, false for previous stance (default true)</param>
+	public void SwitchStance(bool next = true)	//Definitely a candidate for a split off into Controller class [Vortex]
 	{
 		int max = stances.Length - 1;	//just to clear up the array indexing confusion
 		if (next) {
@@ -74,8 +78,10 @@ public class Character : MonoBehaviour {
 
 	#region Inventory-related Code [Vortex]
 
-	[SerializeField]
-	private Inventory inventory;
+	//I was thinking that many of these things could be broken out into other scripts this way
+	//Define it in a non-monobehaviour class and include it that way.
+	//Lets one script add multiple menus, pretty nice
+	public Inventory inventory;
 
 	#endregion
 
@@ -93,12 +99,52 @@ public class Character : MonoBehaviour {
 
 	public void AddVelocity(Vector2 newVelocity)
 	{
+		// Stops the velocity being dependent on framerate
+		newVelocity *= Time.deltaTime;
 		velocity += newVelocity;
 	}
 
 	#endregion
 
-	void Start()
+	#region Ability-related Character-executable Functions from AbilityHotbar.cs [Lolop/Nostro?]
+	//The remainder of the code from that script will likely be incorporated into Input and UI classes if it is used at all
+
+	/// <summary>
+	/// Uses the ability. This is usually activated by clicking the hotbar button or by a keybinding
+	/// Errors (null's) are caught here.
+	/// </summary>
+	/// <param name="abilityIndex"></param>
+	public void UseAbility(int abilityIndex)
+	{
+		// Check that the active abilities are not null;
+		if (activeAbilities == null)
+		{
+			Debug.LogError("Ability Array is null. Something didn't initialize");
+			return;
+		}
+
+		// Check there is an ability. If there is no ability exit 
+		if (activeAbilities[abilityIndex] == null)
+		{
+			Debug.LogError("No ability present at index " + abilityIndex);
+			return;
+		}
+
+		// This is a method implimented by the ability class. 
+		//Each class will have a different implimentation
+		activeAbilities[abilityIndex].UseAbility();
+	}
+
+	#endregion
+
+	private void Awake()
+	{
+		//Initialize this here but do not set its values
+		//Make sure Ability.cs does what it needs to in the awake function
+		activeAbilities = new Ability[4];
+	}
+
+	private void Start()
 	{
 		rigidBody = GetComponent<Rigidbody2D>();
 		anim = GetComponent<Animator>();
@@ -107,23 +153,12 @@ public class Character : MonoBehaviour {
 		ActivateStance(stances[currentStance]);
 	}
 
-	void Update()
+	private void Update()
 	{
-		//checking if the input is asking for a stance change, here represented by a quick and dirty arrow key check
-		//Need to plug input back in
-		//the idea of pulling it out of update directly is to set these character-bound variables once per stance change
-		//then leave them until next time the stance changes, rather than calculating every frame
-		if (Input.GetKeyDown(KeyCode.E))
-		{
-			SwitchStance(true);
-		}
-		else if (Input.GetKeyDown(KeyCode.Q))
-		{
-			SwitchStance(false);
-		}
+		
 	}
 
-	void FixedUpdate()  //only contains Movement code atm
+	private void FixedUpdate()  //only contains Movement code atm
 	{
 
 		// Normalizes the velocity so that you don't move faster when moving diagonally
@@ -140,7 +175,6 @@ public class Character : MonoBehaviour {
 		// Stops him from trying to face up when he is already moving left/right
 		if (velocity.x != 0)
 			anim.SetFloat("MoveVelY", 0);
-
 
 		// Resets the velocity
 		velocity = new Vector2();
