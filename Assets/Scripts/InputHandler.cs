@@ -53,16 +53,16 @@ public class InputHandler : MonoBehaviour {
 
 	private void CheckForMovement() {
 
-		var velocity = new Vector2();
-		velocity = Vector2.zero;
+		var moveVector = new Vector2();
+		moveVector = Vector2.zero;
 
 		// Will probably consider using ".GetAxisRaw" instead? This has a smoothing effect
 		// Which means you don't stop straight away
-		velocity.x = Input.GetAxis("Horizontal");
-		velocity.y = Input.GetAxis("Vertical");
+		moveVector.x = Input.GetAxis("Horizontal");
+		moveVector.y = Input.GetAxis("Vertical");
 
-		if (velocity != Vector2.zero) {
-			character.AddVelocity(velocity);
+		if (moveVector != Vector2.zero) {
+			character.AddVelocity(moveVector);
 		}
 	}
 

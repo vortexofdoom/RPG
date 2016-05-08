@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 
 [System.Serializable]
-public class Character : MonoBehaviour {
+public class Character1 : MonoBehaviour {
 	
 	#region Stats and Stat-related functions [Vortex]
 	//Primal Stats
@@ -99,19 +99,8 @@ public class Character : MonoBehaviour {
 
 	public void AddVelocity(Vector2 newVelocity)
 	{
-
 		// Stops the velocity being dependent on framerate
 		velocity += newVelocity * Time.deltaTime;
-
-		// Sets the 'MoveVelX' and 'MoveVelY' Animator Parameters 
-		// Made it based off the velocity, not the input as other factors
-		// Can change the direction of the character. 
-		anim.SetFloat("MoveVelX", velocity.x);
-
-		anim.SetFloat("MoveVelY", velocity.y);
-		// Stops him from trying to face up when he is already moving left/right
-		if (velocity.x != 0)
-			anim.SetFloat("MoveVelY", 0);
 
 	}
 
@@ -178,6 +167,16 @@ public class Character : MonoBehaviour {
 		velocity.Normalize();
 
 		rigidBody.velocity = velocity * speed;
+
+		// Sets the 'MoveVelX' and 'MoveVelY' Animator Parameters 
+		// Made it based off the velocity, not the input as other factors
+		// Can change the direction of the character. 
+		anim.SetFloat("MoveVelX", velocity.x);
+
+		anim.SetFloat("MoveVelY", velocity.y);
+		// Stops him from trying to face up when he is already moving left/right
+		if (velocity.x != 0)
+			anim.SetFloat("MoveVelY", 0);
 
 		// Resets the velocity
 		velocity = new Vector2();
