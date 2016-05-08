@@ -147,6 +147,7 @@ public class Character : MonoBehaviour {
 	private void Start()
 	{
 		rigidBody = GetComponent<Rigidbody2D>();
+		velocity = Vector2.zero;
 		anim = GetComponent<Animator>();
 		stances = GetComponents<Stance>();
 		currentStance = 0;
@@ -160,7 +161,6 @@ public class Character : MonoBehaviour {
 
 	private void FixedUpdate()  //only contains Movement code atm
 	{
-
 		// Normalizes the velocity so that you don't move faster when moving diagonally
 		velocity.Normalize();
 
@@ -170,8 +170,8 @@ public class Character : MonoBehaviour {
 		// Made it based off the velocity, not the input as other factors
 		// Can change the direction of the character. 
 		anim.SetFloat("MoveVelX", velocity.x);
-
 		anim.SetFloat("MoveVelY", velocity.y);
+
 		// Stops him from trying to face up when he is already moving left/right
 		if (velocity.x != 0)
 			anim.SetFloat("MoveVelY", 0);

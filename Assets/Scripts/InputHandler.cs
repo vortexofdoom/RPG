@@ -54,6 +54,7 @@ public class InputHandler : MonoBehaviour {
 	private void CheckForMovement() {
 
 		var velocity = new Vector2();
+		velocity = Vector2.zero;
 
 		// Will probably consider using ".GetAxisRaw" instead? This has a smoothing effect
 		// Which means you don't stop straight away
