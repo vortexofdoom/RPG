@@ -19,7 +19,6 @@ public class InputHandler : MonoBehaviour {
 	void Update() {
 		CheckForMenus();
 		if (isInMenu == false) {
-			//
 			CheckForMovement();
 			CheckForStanceSwitch();
 			CheckForAbility();
@@ -48,6 +47,7 @@ public class InputHandler : MonoBehaviour {
 		}
 	}
 
+	//Placeholder functions for inputs while in a menu
 	private void CheckForMenuNav() { }
 	private void CheckForMenuSwitch() { }
 	#endregion
@@ -59,8 +59,10 @@ public class InputHandler : MonoBehaviour {
 		Vector2 moveVector;
 
 		// Will probably consider using ".GetAxisRaw" instead?
-		// GetAxis allows for analog input while GetAxisRaw equates to a button press
-		if ((Input.GetAxisRaw("Horizontal") != 0 || (Input.GetAxisRaw("Vertical")) != 0)) {
+		// Both return floats, GetAxis returns it directly
+		//GetAxisRaw clamps the float value to -1, 0, or 1
+		if ((Input.GetAxisRaw("Horizontal") != 0 || (Input.GetAxisRaw("Vertical")) != 0))
+		{
 			moveVector.x = Input.GetAxisRaw("Horizontal");
 			moveVector.y = Input.GetAxisRaw("Vertical");
 			character.Walk(moveVector);
