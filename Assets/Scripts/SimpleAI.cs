@@ -16,6 +16,6 @@ public class SimpleAI : MonoBehaviour {
 	}
 
 	void Move() {
-		character.AddVelocity(Vector2.right);
+		character.Walk(Vector2.right);
 	}
 }

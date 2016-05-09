@@ -4,7 +4,20 @@ using System;
 
 [System.Serializable]
 public class Character : MonoBehaviour {
-	
+
+	[SerializeField]
+	private float speed = 3f;
+
+	public bool canWalk = true; //variable that we'd make false if using knockback or during a cutscene perhaps
+	private bool isWalking;     //Self-explanatory
+	private Vector2 velocity;   //The sum total velocity acting on the player, incorporating things like wind or knockback
+	private Vector2 walkVector; //The direction that the character is walking (if possible)
+
+	// Reference to the animator
+	private Animator anim;
+
+	Rigidbody2D rigidBody;
+
 	#region Stats and Stat-related functions [Vortex]
 	//Primal Stats
 	private float primalStat1;
@@ -85,34 +98,27 @@ public class Character : MonoBehaviour {
 
 	#endregion
 
-	#region Movement-related Code from Movement.cs [NostroVostro + Lolop] 
-	[SerializeField]
-	private float speed = 3f;
+	#region Movement-related Code from Movement.cs [NostroVostro + Lolop]
 
-	// Used so that Update can listen for input, and FixedUpdate can move the player.
-	private Vector2 velocity;
+	/// <summary>
+	/// Sets velocity to the specified move vector.
+	/// </summary>
+	/// <param name="inputVector">The move vector.</param>
+	public void Walk(Vector2 inputVector){
+		if (canWalk)
+		{
+			isWalking = true;
+			//	Sets the 'MoveDirX' and 'MoveDirY' Animator Parameters 
+			//	Made it based off the velocity, not the input as other factors
+			//	Can change the direction of the character. [orig]
+			//	Should they?  Fine for now, but I think the Character should be in control of their direction more fully perhaps? [Vortex]
+			anim.SetFloat("MoveDirX", inputVector.x);
+			anim.SetFloat("MoveDirY", inputVector.y);
 
-	// Reference to the animator
-	private Animator anim;
+			Debug.Log(inputVector);
 
-	Rigidbody2D rigidBody;
-
-	public void AddVelocity(Vector2 newVelocity)
-	{
-
-		// Stops the velocity being dependent on framerate
-		velocity += newVelocity * Time.deltaTime;
-
-		// Sets the 'MoveVelX' and 'MoveVelY' Animator Parameters 
-		// Made it based off the velocity, not the input as other factors
-		// Can change the direction of the character. 
-		anim.SetFloat("MoveVelX", velocity.x);
-
-		anim.SetFloat("MoveVelY", velocity.y);
-		// Stops him from trying to face up when he is already moving left/right
-		if (velocity.x != 0)
-			anim.SetFloat("MoveVelY", 0);
-
+			walkVector = inputVector;
+		}
 	}
 
 	#endregion
@@ -157,29 +163,47 @@ public class Character : MonoBehaviour {
 
 	private void Start()
 	{
+		//set the values of activeAbilities in Start()
 		rigidBody = GetComponent<Rigidbody2D>();
 		velocity = Vector2.zero;
 		anim = GetComponent<Animator>();
+		anim.SetFloat("MoveDirY", -1);
 		stances = GetComponents<Stance>();
 		currentStance = 0;
 		ActivateStance(stances[currentStance]);
 	}
-
+	////Vectors for debugging speed
+	//Vector3 lastPosition;
+	//Vector3 currentPosition;
 	private void Update()
 	{
-		
+		if (isWalking)
+		{
+			anim.SetBool("isWalking", true);
+		}
+		else {
+			anim.SetBool("isWalking", false);
+		}
+		//Debug.Log("Distance moved since last frame: " + ((transform.position - lastPosition) * 1000));
 	}
 
 
 	private void FixedUpdate()  //only contains Movement code atm
 	{
-
-		// Normalizes the velocity so that you don't move faster when moving diagonally
+		if (isWalking)
+		{
+			//Add the character's speed
+			velocity += walkVector;
+		}
+		//Normalizes the velocity so that you don't move faster when moving diagonally
 		velocity.Normalize();
 
-		rigidBody.velocity = velocity * speed;
+		//Take the sum total of the effects on velocity this timestep
+		rigidBody.MovePosition(rigidBody.position + velocity * speed * Time.deltaTime);
 
-		// Resets the velocity
-		velocity = new Vector2();
+		//Once finished moving, make sure that isWalking is set to false
+		isWalking = false;
+		//Set velocity back to zero so it can be re-evaluated next frame;
+		velocity = Vector2.zero;
 	}
 }

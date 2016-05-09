@@ -38,6 +38,9 @@ public class InputHandler : MonoBehaviour {
 			if (isInMenu == false) {
 				Debug.Log("Escape Menu activated");
 			}
+			else {
+				Debug.Log("Escape Menu deactivated");
+			}
 			isInMenu = !isInMenu;
 		}
 		if(Input.GetKeyDown(KeyCode.Tab)) {
@@ -53,16 +56,14 @@ public class InputHandler : MonoBehaviour {
 
 	private void CheckForMovement() {
 
-		var moveVector = new Vector2();
-		moveVector = Vector2.zero;
+		Vector2 moveVector;
 
-		// Will probably consider using ".GetAxisRaw" instead? This has a smoothing effect
-		// Which means you don't stop straight away
-		moveVector.x = Input.GetAxis("Horizontal");
-		moveVector.y = Input.GetAxis("Vertical");
-
-		if (moveVector != Vector2.zero) {
-			character.AddVelocity(moveVector);
+		// Will probably consider using ".GetAxisRaw" instead?
+		// GetAxis allows for analog input while GetAxisRaw equates to a button press
+		if ((Input.GetAxisRaw("Horizontal") != 0 || (Input.GetAxisRaw("Vertical")) != 0)) {
+			moveVector.x = Input.GetAxisRaw("Horizontal");
+			moveVector.y = Input.GetAxisRaw("Vertical");
+			character.Walk(moveVector);
 		}
 	}
 
