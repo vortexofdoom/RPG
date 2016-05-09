@@ -42,9 +42,9 @@
 //	/// </summary>
 //private void UpdateVelocity(Vector2 velocity)
 //{
-//	// Stops the velocity being dependent on framerate
-//	velocity *= Time.deltaTime;
+	//// Stops the velocity being dependent on framerate
+	//velocity *= Time.deltaTime;
 
-//	character.AddVelocity(velocity);
+	//character.AddVelocity(velocity);
 //}
 //}

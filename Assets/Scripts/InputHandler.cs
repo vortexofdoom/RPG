@@ -19,7 +19,6 @@ public class InputHandler : MonoBehaviour {
 	void Update() {
 		CheckForMenus();
 		if (isInMenu == false) {
-			//
 			CheckForMovement();
 			CheckForStanceSwitch();
 			CheckForAbility();
@@ -38,6 +37,9 @@ public class InputHandler : MonoBehaviour {
 			if (isInMenu == false) {
 				Debug.Log("Escape Menu activated");
 			}
+			else {
+				Debug.Log("Escape Menu deactivated");
+			}
 			isInMenu = !isInMenu;
 		}
 		if(Input.GetKeyDown(KeyCode.Tab)) {
@@ -45,6 +47,7 @@ public class InputHandler : MonoBehaviour {
 		}
 	}
 
+	//Placeholder functions for inputs while in a menu
 	private void CheckForMenuNav() { }
 	private void CheckForMenuSwitch() { }
 	#endregion
@@ -53,15 +56,16 @@ public class InputHandler : MonoBehaviour {
 
 	private void CheckForMovement() {
 
-		var velocity = new Vector2();
+		Vector2 moveVector;
 
-		// Will probably consider using ".GetAxisRaw" instead? This has a smoothing effect
-		// Which means you don't stop straight away
-		velocity.x = Input.GetAxis("Horizontal");
-		velocity.y = Input.GetAxis("Vertical");
-
-		if (velocity != Vector2.zero) {
-			character.AddVelocity(velocity);
+		// Will probably consider using ".GetAxisRaw" instead?
+		// Both return floats, GetAxis returns it directly
+		//GetAxisRaw clamps the float value to -1, 0, or 1
+		if ((Input.GetAxisRaw("Horizontal") != 0 || (Input.GetAxisRaw("Vertical")) != 0))
+		{
+			moveVector.x = Input.GetAxisRaw("Horizontal");
+			moveVector.y = Input.GetAxisRaw("Vertical");
+			character.Walk(moveVector);
 		}
 	}
 
